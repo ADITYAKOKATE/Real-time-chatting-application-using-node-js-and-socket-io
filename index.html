@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Chat</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="http://localhost:8000/socket.io/socket.io.js"></script>
+    <script defer src="client.js"></script>
+</head>
+<body>
+    <div class="bg">
+        <!-- <div class="message right">Hello Aditya!</div>
+        <div class="message left">Heyy, How are you?</div> -->
+    </div>
+    <div id="send-container">
+        <form action="#">
+            <input type="text" placeholder="Type your message..." id="messageinp" />
+            <button class="btn" type="submit">Send</button>
+        </form>
+    </div>
+</body>
+</html>
