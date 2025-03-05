@@ -4,7 +4,7 @@ I'm excited to share my latest project—a Real-Time Chat Application built usin
 
 **💬 Features:**
 
-- Instant Messaging: Real-time communication with zero delays, powered by WebSocket technology.
+- Instant Messaging: Real-time communication with zero delays, powered by WebSocket technology. 
 
 - User-Friendly Interface: A clean, responsive design for an intuitive chatting experience.
 
