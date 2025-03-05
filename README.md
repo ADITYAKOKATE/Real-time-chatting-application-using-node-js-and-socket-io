@@ -4,28 +4,30 @@ I'm excited to share my latest project—a Real-Time Chat Application built usin
 
 **💬 Features:**
 
-Instant Messaging: Real-time communication with zero delays, powered by WebSocket technology.
+- Instant Messaging: Real-time communication with zero delays, powered by WebSocket technology.
 
-User-Friendly Interface: A clean, responsive design for an intuitive chatting experience.
+- User-Friendly Interface: A clean, responsive design for an intuitive chatting experience.
 
-Room Functionality: Create or join chat rooms to engage in group discussions.
+- Room Functionality: Create or join chat rooms to engage in group discussions.
 
-Typing Indicators: Real-time feedback on when someone is typing.
+- Typing Indicators: Real-time feedback on when someone is typing.
 
-Custom Notifications: Stay updated with user join/leave alerts.
+- Custom Notifications: Stay updated with user join/leave alerts.
 
-Scalable Architecture: Built to handle multiple users simultaneously without compromising performance.
+- Scalable Architecture: Built to handle multiple users simultaneously without compromising performance.
 
 **🔧 Tech Stack:**
 
-Node.js: For building a scalable and efficient backend.
+- Node.js: For building a scalable and efficient backend.
 
-Socket.IO: For enabling bidirectional, real-time communication.
+- Socket.IO: For enabling bidirectional, real-time communication.
 
-HTML/CSS/JavaScript: For an interactive and responsive front end.
+- HTML/CSS/JavaScript: For an interactive and responsive front end.
 
 This application showcases the power of real-time web technologies and their potential in creating dynamic, interactive user experiences. It’s a perfect fit for projects like team collaboration tools, customer support systems, or gaming chats.
 
+## Screenshots
+<img src="Screenshot 2025-03-05 124848.png" width="700">
 🚀 Ready to explore more possibilities with real-time applications!
 
 #WebDevelopment #NodeJS #SocketIO #RealTimeChat #Programming #JavaScript #FullStackDevelopment
