@@ -1,6 +1,6 @@
 **🌟 Real-Time Chat Application with Node.js and Socket.IO 🌟**
 
-I'm excited to share my latest project—a Real-Time Chat Application built using Node.js and Socket.IO, designed to deliver instant, seamless, and interactive communication! Here's what makes it stand out:
+I'm excited to share my latest project—a Real-Time Chat Application built using Node.js and Socket.IO, designed to deliver instant, seamless, and interactive communication! Here's what makes it stand out: 
 
 **💬 Features:**
 
