@@ -1,43 +1,53 @@
 const socket = io('http://localhost:8000');
-const form = document.getElementById('send-container')
-const messageinput = document.getElementById('messageinp')
-const container = document.querySelector('.bg')
+const form = document.getElementById('send-container');
+const messageinput = document.getElementById('messageinp');
+const container = document.querySelector('.bg');
 var audio = new Audio('./notification.mp3');
-const append = (message,position)=>{
-    const messageElement = document.createElement('div')
+
+const append = (message, position) => {
+    const messageElement = document.createElement('div');
     messageElement.innerText = message;
     messageElement.classList.add('message');
     messageElement.classList.add(position);
-    if (position == 'center'){
-        messageElement.classList.add('joined')
+
+    if (position === 'center') {
+        messageElement.classList.add('joined');
     }
-    if(position == "up"){
-        messageElement.classList.add('leavee')
+    if (position === "up") {
+        messageElement.classList.add('leavee');
     }
-    if(position =="left"){
-        audio.play();
+    if (position === "left") {
+        audio.play().catch(e => console.log("Audio play deferred until user interaction"));
     }
-    container.append(messageElement)
+
+    container.append(messageElement);
+    
+    // Auto-scroll to bottom
+    container.scrollTop = container.scrollHeight;
 }
 
 const namea = prompt('Enter your name to join');
 socket.emit('new-user-joined', namea);
 
-socket.on('user-joined',name=>{
-    append(`${name} joined the chat`, 'center')
+socket.on('user-joined', name => {
+    append(`${name} joined the chat`, 'center');
 })
 
-socket.on('receive',data=>{
-    append(`${data.name} : ${data.message}`,'left')
+socket.on('receive', data => {
+    append(`${data.name}: ${data.message}`, 'left');
 })
 
-socket.on('left',name=>{
-    append(`${name} left the chat`, 'up')
+socket.on('left', name => {
+    append(`${name} left the chat`, 'up');
 })
-form.addEventListener('submit',(e)=>{
+
+form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const userMessage = messageinput.value;
-    append(`You: ${userMessage}`, 'right')
-    socket.emit('send',userMessage);
-    messageinput.value = '';
-})
+    const userMessage = messageinput.value.trim();
+    if (userMessage !== "") {
+        append(`You: ${userMessage}`, 'right');
+        socket.emit('send', userMessage);
+        messageinput.value = '';
+        messageinput.focus();
+    }
+});

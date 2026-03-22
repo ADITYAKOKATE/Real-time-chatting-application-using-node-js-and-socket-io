@@ -4,20 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WhatsApp Chat</title>
+    <!-- Modern Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
     <script defer src="http://localhost:8000/socket.io/socket.io.js"></script>
     <script defer src="client.js"></script>
 </head>
 <body>
-    <div class="bg">
-        <!-- <div class="message right">Hello Aditya!</div>
-        <div class="message left">Heyy, How are you?</div> -->
-    </div>
-    <div id="send-container">
-        <form action="#">
-            <input type="text" placeholder="Type your message..." id="messageinp" />
-            <button class="btn" type="submit">Send</button>
-        </form>
+    <div class="app-container">
+        <!-- Modern Header -->
+        <header class="main-header">
+            <div class="user-info">
+                <div class="avatar">
+                    <img src="https://ui-avatars.com/api/?name=Chat+Room&background=25D366&color=fff" alt="Avatar">
+                    <span class="status-dot"></span>
+                </div>
+                <div class="details">
+                    <h1>WhatsApp Chat</h1>
+                    <p>Online</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="icon-btn"><i class="fas fa-search"></i></button>
+                <button class="icon-btn"><i class="fas fa-ellipsis-v"></i></button>
+            </div>
+        </header>
+
+        <!-- Chat Background Area -->
+        <main class="chat-area bg">
+            <!-- Messages will be appended here -->
+        </main>
+
+        <!-- Modern Input Container -->
+        <footer id="send-container">
+            <form action="#">
+                <div class="input-wrapper">
+                    <button type="button" class="icon-btn"><i class="far fa-smile"></i></button>
+                    <button type="button" class="icon-btn"><i class="fas fa-paperclip"></i></button>
+                    <input type="text" placeholder="Type a message" id="messageinp" autocomplete="off" />
+                </div>
+                <button class="btn" type="submit">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+        </footer>
     </div>
 </body>
 </html>
+

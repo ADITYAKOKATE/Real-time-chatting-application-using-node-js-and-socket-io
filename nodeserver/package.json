@@ -10,6 +10,7 @@
   "description": "",
   "dependencies": {
     "nodemon": "^3.1.9",
+    "nodeserver": "file:",
     "socket.io": "^4.8.1"
   }
 }
