@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Smile, Paperclip, Send } from 'lucide-react';
+import { Smile, Plus, Mic, Send } from 'lucide-react';
 
 const MessageInput = ({ onSendMessage }) => {
     const [message, setMessage] = useState('');
@@ -16,9 +16,9 @@ const MessageInput = ({ onSendMessage }) => {
     return (
         <footer id="send-container">
             <form onSubmit={handleSubmit}>
+                <button type="button" className="icon-btn"><Smile size={24} /></button>
+                <button type="button" className="icon-btn"><Plus size={24} /></button>
                 <div className="input-wrapper">
-                    <button type="button" className="icon-btn"><Smile size={20} /></button>
-                    <button type="button" className="icon-btn"><Paperclip size={20} /></button>
                     <input 
                         type="text" 
                         placeholder="Type a message" 
@@ -28,9 +28,15 @@ const MessageInput = ({ onSendMessage }) => {
                         id="messageinp"
                     />
                 </div>
-                <button className="btn" type="submit">
-                    <Send size={18} />
-                </button>
+                {message.trim() ? (
+                    <button className="send-btn" type="submit">
+                        <Send size={24} />
+                    </button>
+                ) : (
+                    <button type="button" className="icon-btn">
+                        <Mic size={24} />
+                    </button>
+                )}
             </form>
         </footer>
     );

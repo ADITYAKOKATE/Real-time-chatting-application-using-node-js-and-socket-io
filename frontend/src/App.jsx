@@ -3,6 +3,7 @@ import io from 'socket.io-client';
 import ChatHeader from './components/ChatHeader';
 import MessageArea from './components/MessageArea';
 import MessageInput from './components/MessageInput';
+import JoinScreen from './components/JoinScreen';
 import './App.css';
 
 const socket = io('http://localhost:8000');
@@ -13,30 +14,36 @@ function App() {
     const [userName, setUserName] = useState('');
     const [isJoined, setIsJoined] = useState(false);
 
-    useEffect(() => {
-        if (!isJoined) {
-            const name = prompt('Enter your name to join');
-            if (name) {
-                setUserName(name);
-                socket.emit('new-user-joined', name);
-                setIsJoined(true);
-            }
-        }
-    }, [isJoined]);
+    const getTimestamp = () => {
+        return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    };
 
     useEffect(() => {
         socket.on('user-joined', (name) => {
-            setMessages((prev) => [...prev, { text: `${name} joined the chat`, position: 'center', type: 'joined' }]);
+            setMessages((prev) => [...prev, { 
+                text: `${name} joined the chat`, 
+                type: 'system',
+                timestamp: getTimestamp()
+            }]);
         });
 
         socket.on('receive', (data) => {
-            setMessages((prev) => [...prev, { text: `${data.name}: ${data.message}`, position: 'left' }]);
+            setMessages((prev) => [...prev, { 
+                text: data.message, 
+                sender: data.name,
+                position: 'left',
+                timestamp: getTimestamp()
+            }]);
             audio.play().catch(e => console.log("Audio play deferred until user interaction"));
         });
 
         socket.on('left', (name) => {
             if (name) {
-                setMessages((prev) => [...prev, { text: `${name} left the chat`, position: 'up', type: 'leavee' }]);
+                setMessages((prev) => [...prev, { 
+                    text: `${name} left the chat`, 
+                    type: 'system',
+                    timestamp: getTimestamp()
+                }]);
             }
         });
 
@@ -47,10 +54,25 @@ function App() {
         };
     }, []);
 
+    const handleJoin = (name) => {
+        setUserName(name);
+        socket.emit('new-user-joined', name);
+        setIsJoined(true);
+    };
+
     const handleSendMessage = (text) => {
-        setMessages((prev) => [...prev, { text: `You: ${text}`, position: 'right' }]);
+        const timestamp = getTimestamp();
+        setMessages((prev) => [...prev, { 
+            text: text, 
+            position: 'right',
+            timestamp: timestamp
+        }]);
         socket.emit('send', text);
     };
+
+    if (!isJoined) {
+        return <JoinScreen onJoin={handleJoin} />;
+    }
 
     return (
         <div className="app-container">
