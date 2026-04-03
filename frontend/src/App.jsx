@@ -1,86 +1,62 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import io from 'socket.io-client';
-import ChatHeader from './components/ChatHeader';
-import MessageArea from './components/MessageArea';
-import MessageInput from './components/MessageInput';
-import JoinScreen from './components/JoinScreen';
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { SocketProvider } from './contexts/SocketContext';
+import { CryptoProvider } from './contexts/CryptoContext';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Workspace from './pages/Workspace';
 import './App.css';
 
-const socket = io('http://localhost:8000');
-const audio = new Audio('/notification.mp3');
+// Protected route wrapper
+const ProtectedRoute = ({ children }) => {
+  const { user, loading } = useAuth();
+  if (loading) return (
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#0a0a0f', color: '#7c3aed', fontSize: '1.5rem' }}>
+      ⚡ Loading…
+    </div>
+  );
+  return user ? children : <Navigate to="/login" replace />;
+};
+
+// Public route (redirect if already logged in)
+const PublicRoute = ({ children }) => {
+  const { user, loading } = useAuth();
+  if (loading) return null;
+  return user ? <Navigate to="/workspace" replace /> : children;
+};
+
+function AppRoutes() {
+  return (
+    <Routes>
+      <Route path="/" element={<Navigate to="/workspace" replace />} />
+      <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+      <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+      <Route
+        path="/workspace"
+        element={
+          <ProtectedRoute>
+            <SocketProvider>
+              <CryptoProvider>
+                <Workspace />
+              </CryptoProvider>
+            </SocketProvider>
+          </ProtectedRoute>
+        }
+      />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  );
+}
 
 function App() {
-    const [messages, setMessages] = useState([]);
-    const [userName, setUserName] = useState('');
-    const [isJoined, setIsJoined] = useState(false);
-
-    const getTimestamp = () => {
-        return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    };
-
-    useEffect(() => {
-        socket.on('user-joined', (name) => {
-            setMessages((prev) => [...prev, { 
-                text: `${name} joined the chat`, 
-                type: 'system',
-                timestamp: getTimestamp()
-            }]);
-        });
-
-        socket.on('receive', (data) => {
-            setMessages((prev) => [...prev, { 
-                text: data.message, 
-                sender: data.name,
-                position: 'left',
-                timestamp: getTimestamp()
-            }]);
-            audio.play().catch(e => console.log("Audio play deferred until user interaction"));
-        });
-
-        socket.on('left', (name) => {
-            if (name) {
-                setMessages((prev) => [...prev, { 
-                    text: `${name} left the chat`, 
-                    type: 'system',
-                    timestamp: getTimestamp()
-                }]);
-            }
-        });
-
-        return () => {
-            socket.off('user-joined');
-            socket.off('receive');
-            socket.off('left');
-        };
-    }, []);
-
-    const handleJoin = (name) => {
-        setUserName(name);
-        socket.emit('new-user-joined', name);
-        setIsJoined(true);
-    };
-
-    const handleSendMessage = (text) => {
-        const timestamp = getTimestamp();
-        setMessages((prev) => [...prev, { 
-            text: text, 
-            position: 'right',
-            timestamp: timestamp
-        }]);
-        socket.emit('send', text);
-    };
-
-    if (!isJoined) {
-        return <JoinScreen onJoin={handleJoin} />;
-    }
-
-    return (
-        <div className="app-container">
-            <ChatHeader />
-            <MessageArea messages={messages} />
-            <MessageInput onSendMessage={handleSendMessage} />
-        </div>
-    );
+  return (
+    <BrowserRouter>
+      <AuthProvider>
+        <AppRoutes />
+      </AuthProvider>
+    </BrowserRouter>
+  );
 }
 
 export default App;

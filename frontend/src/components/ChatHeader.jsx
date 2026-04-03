@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, MoreVertical, Phone, Video } from 'lucide-react';
+import { Search, MoreVertical, Phone, Video, ShieldCheck } from 'lucide-react';
 
 const ChatHeader = () => {
     return (
@@ -9,8 +9,14 @@ const ChatHeader = () => {
                     <img src="https://ui-avatars.com/api/?name=Chat+Room&background=00a884&color=fff" alt="Avatar" />
                 </div>
                 <div className="details">
-                    <h1>WhatsApp Global Chat</h1>
-                    <p>online</p>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <h1>WhatsApp Global Chat</h1>
+                        <ShieldCheck size={14} color="#00a884" title="End-to-End Encrypted" />
+                    </div>
+                    <p style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                        <span style={{ width: 8, height: 8, background: '#00a884', borderRadius: '50%' }}></span>
+                        online
+                    </p>
                 </div>
             </div>
             <div className="header-actions">

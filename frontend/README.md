@@ -1,12 +1,33 @@
-# React + Vite
+# 💻 Frontend - Real-Time Chat Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the React-based frontend for the Real-Time Chat Application. It provides a modern, responsive interface for messaging, channel management, and secure communication.
 
-Currently, two official plugins are available:
+## 🚀 Technologies
+- **React 19**: Component-based UI.
+- **Vite**: Fast build tool and dev server.
+- **Socket.io Client**: Real-time event handling.
+- **Web Crypto API**: Handles End-to-End Encryption (E2EE) on the client side.
+- **Lucide React**: Clean and consistent iconography.
+- **Axios**: HTTP client for API requests.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🛠️ Local Development
 
-## Expanding the ESLint configuration
+1.  **Install dependencies**:
+    ```bash
+    npm install
+    ```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+2.  **Environment Variables**:
+    Create a `.env` file (if needed) to specify the API and Socket server URLs:
+    ```env
+    VITE_API_URL=http://localhost:5000/api
+    VITE_SOCKET_URL=http://localhost:5000
+    ```
+
+3.  **Run development server**:
+    ```bash
+    npm run dev
+    ```
+
+## 🔐 Security Note
+This client implements **End-To-End Encryption (E2EE)**. Message encryption and decryption happen entirely within this frontend using the browser's Web Crypto API. Private keys are stored in `sessionStorage` and never leave your browser.
