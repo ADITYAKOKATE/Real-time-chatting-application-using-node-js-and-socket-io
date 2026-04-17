@@ -35,11 +35,15 @@ router.post('/upload', verifyToken, upload.single('file'), async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
 
+    const baseUrl = `${req.protocol}://${req.get('host')}`;
+    const fileUrl = `${baseUrl}/uploads/${req.file.filename}`;
+
     let thumbnailUrl = null;
     let videoMeta = null;
 
     if (req.file.mimetype.startsWith('image/')) {
-        thumbnailUrl = await generateThumbnail(req.file.path);
+        const thumbLocal = await generateThumbnail(req.file.path);
+        thumbnailUrl = thumbLocal ? `${baseUrl}${thumbLocal}` : null;
     } else if (req.file.mimetype.startsWith('video/')) {
         videoMeta = await getVideoMetadata(req.file.path);
     }

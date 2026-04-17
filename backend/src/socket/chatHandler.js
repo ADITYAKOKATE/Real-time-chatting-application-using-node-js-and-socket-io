@@ -136,6 +136,7 @@ const chatHandler = async (chatNS, socket) => {
         }
       }
     } catch (err) {
+      console.error('Error in message:send:', err);
       socket.emit('error', { message: err.message });
     }
   });

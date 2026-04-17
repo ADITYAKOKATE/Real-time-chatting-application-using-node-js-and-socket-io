@@ -248,9 +248,7 @@ const MessageInput = ({ channelId, onSend, onTyping, onStopTyping }) => {
     try {
       const formData = new FormData();
       formData.append('file', file);
-      const res = await api.post('/files/upload', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
+      const res = await api.post('/files/upload', formData);
       onSend('', { type: 'file', file: res.data.file });
     } catch (err) {
       console.error('Upload failed:', err);
