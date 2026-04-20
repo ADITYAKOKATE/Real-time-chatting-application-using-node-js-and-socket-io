@@ -4,6 +4,9 @@ const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
 const path = require('path');
+const helmet = require('helmet');
+const compression = require('compression');
+
 
 const connectDB = require('./src/config/db');
 const { connectRedis } = require('./src/config/redis');
@@ -30,9 +33,14 @@ const io = new Server(server, {
 });
 
 // Middleware
+app.use(helmet({
+  contentSecurityPolicy: false, // Set to false if you have trouble with CSP in development
+}));
+app.use(compression());
 app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:5173', credentials: true }));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
+
 
 // Serve uploaded files statically
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -57,6 +65,14 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ message: 'Internal server error', error: err.message });
 });
+
+// Deployment: Serve frontend in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../frontend/dist')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../frontend', 'dist', 'index.html'));
+  });
+}
 
 // Start everything
 const PORT = process.env.PORT || 5000;

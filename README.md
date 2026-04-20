@@ -78,19 +78,19 @@ npm run dev
 
 ```text
 .
-├── backend/
+├── backend/             # Node.js + Express API
 │   ├── src/
-│   │   ├── socket/      # Redis adapter, Namespaces (/chat, /notif)
-│   │   ├── utils/       # media processing, OG scraping, E2EE helpers
-│   │   ├── models/      # Mongoose schemas (Message with FTS index)
-│   │   └── routes/      # REST API for auth, channels, and key management
-│   └── uploads/         # Local file storage (original + thumbnails)
-├── frontend/
-│   ├── src/
-│   │   ├── contexts/    # Crypto, Socket, and Auth providers
-│   │   ├── hooks/       # useMessages (infinite scroll), usePresence
-│   │   └── components/  # Workspace, ChatHeader, RichMedia
-└── docker-compose.yml   # Infrastructure orchestration
+│   │   ├── config/      # DB & Redis configs
+│   │   ├── socket/      # Chat & Notif handlers
+│   │   ├── routes/      # REST endpoints
+│   │   ├── models/      # Mongoose schemas
+│   │   └── utils/       # Helpers (Media, Push, OG)
+│   └── uploads/         # Local media storage
+├── frontend/            # React + Vite Application
+│   ├── src/             # Logic, hooks, components
+│   └── public/          # Service workers, assets
+├── docker-compose.yml   # Infrastructure orchestration (Mongo, Redis)
+└── package.json         # (Root - Optional workspace config)
 ```
 
 ---
@@ -101,7 +101,32 @@ npm run dev
   <img src="Screenshot 2025-03-05 124848.png" width="800" alt="Application Dashboard">
 </div>
 
+## 🌍 Deployment
+
+The application is configured for easy deployment on platforms like **Render**, **Railway**, or **Heroku**.
+
+### Deployment Steps:
+1. **Build Everything**:
+   From the root directory, run:
+   ```bash
+   npm run build:frontend
+   ```
+2. **Environment Variables**:
+   Set the following on your host:
+   - `NODE_ENV=production`
+   - `MONGO_URI` (Your MongoDB Atlas connection string)
+   - `JWT_SECRET` (A secure random string)
+   - `REDIS_URL` (Optional, for horizontal scaling)
+   - `CLIENT_URL` (Your production domain)
+3. **Start the Server**:
+   ```bash
+   npm start
+   ```
+
+The backend is configured to automatically serve the frontend's static files from the `frontend/dist` directory when `NODE_ENV` is set to `production`.
+
 ---
 
 ## 📜 License
 This project is licensed under the ISC License.
+
